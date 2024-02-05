@@ -3,19 +3,12 @@
 
 class Player {
   private://variables
-    int m_start{1};
-    bool m_turn{false};
+    bool m_turn{true};
     int m_points{0};
 
   public:
-    bool Turn() {
-      return m_turn;
-    }
-
-    Player (bool turn, int points) {
-      m_turn = turn;
-      m_points = points;
-    }
+    Player (bool turn, int points):
+      m_turn (turn), m_points (points) {}
 
     void Move1(int start, std::vector<std::vector<int>>& Board) {        //takes in which pocket the player chooses to play & current state of board
       int amount_stones {Board.at(start).at(0)};                                //sets up the limit of stones you can place on the board = #stones in pocket
@@ -37,6 +30,7 @@ class Player {
         }
       }
     }
+
     void Move2 (int start, std::vector<std::vector<int>>& Board) {
       int amount_stones {Board.at(start).at(1)};                                //sets up the limit of stones you can place on the board = #stones in pocket
       Board.at(start).at(1) = 0;                                                //sets pocket played to 0
@@ -77,6 +71,15 @@ class Player {
       }
       std::cout << "=======\n";
     }
+
+    bool Turn(){
+      return m_turn;
+    }
+
+    bool SwitchTurn() {
+      m_turn = !m_turn;
+      return m_turn;
+    }
 };
 
 int main () {
@@ -94,21 +97,27 @@ int main () {
   Player player2(false, 0);
   int pocket{0};
 
-  while (player1.Turn()) {
-    player1.Print1(Board);
-    std::cout << "Player 1 turn\n";
-    std::cout << "Please enter number of pocket to play: ";
-    std::cin >> pocket;
-    player1.Move1(pocket, Board);
-    player1.Print1(Board);
-  }
-
-  while (player2.Turn()) {
-    std::cout << "Player 2's turn\n";
-    player2.Print2(Board);
-    std::cout << "Please enter number of pocket to play: ";
-    std::cin >> pocket;
-    player2.Move2(pocket, Board);
-    player2.Print2(Board);
+  while (true) {
+    while (player1.Turn()) {
+      player1.Print1(Board);
+      std::cout << "Player 1 turn\n";
+     std::cout << "Please enter number of pocket to play: ";
+      std::cin >> pocket;
+      player1.Move1(pocket, Board);
+      player1.Print1(Board);
+      player1.SwitchTurn();
+      player2.SwitchTurn();
+    }
+    
+    while (player2.Turn()) {
+      player2.Print2(Board);
+      std::cout << "Player 2 turn\n";
+      std::cout << "Please enter number of pocket to play: ";
+      std::cin >> pocket;
+      player2.Move2(pocket, Board);
+      player2.Print2(Board);
+      player1.SwitchTurn();
+      player2.SwitchTurn();
+    }
   }
 }
