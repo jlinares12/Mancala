@@ -3,11 +3,11 @@
 
 class Player {
   private://variables
-    bool m_turn{true};
-    int m_points{0};
+    bool m_turn;
+    int m_points;
 
   public:
-    Player (bool turn, int points):
+    Player::Player (bool turn, int points):
       m_turn (turn), m_points (points) {}
 
     void Move1(int start, std::vector<std::vector<int>>& Board) {        //takes in which pocket the player chooses to play & current state of board
