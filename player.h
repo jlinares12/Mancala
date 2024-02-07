@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <vector>
+
 class Player {
     public:
         Player () {}
@@ -15,6 +17,6 @@ class Player {
     private:
         bool m_turn;
         int m_points;
-}
+};
 
 #endif

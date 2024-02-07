@@ -1,6 +1,9 @@
 #include "player.h"
 
-Player::Player () : m_turn(false), m_points(o) {}
+#include <iostream>
+#include <vector>
+
+Player::Player () : m_turn(false), m_points(0) {}
 
 Player::Player (bool turn, int points) :  m_turn (turn), m_points (points) {}
 

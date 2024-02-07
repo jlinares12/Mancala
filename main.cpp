@@ -20,7 +20,7 @@ int main () {
   int pocket{0};
   Game game(true);
 
-  while (game.status) {
+  while (game.Status()) {
     while (player1.Turn()) {
       player1.Print1(Board);
       std::cout << "Player 1 turn\n";
