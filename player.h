@@ -5,12 +5,12 @@
 
 class Player1 {
     public:
-        Player1 () {}
-        Player1 (bool turn, int points) {}
-        void Move(int start, std::vector<std::vector<int>>& Board){}
-        void Print (const std::vector<std::vector<int>>& Board) {}
-        bool Turn() {}
-        bool SwitchTurn() {}
+        Player1 ();
+        Player1 (bool turn, int points);
+        void Move(int start, std::vector<std::vector<int>>& Board);
+        void Print (const std::vector<std::vector<int>>& Board);
+        bool Turn();
+        bool SwitchTurn();
 
     private:
         bool m_turn;
@@ -19,12 +19,12 @@ class Player1 {
 
 class Player2 {
     public:
-        Player2 () {}
-        Player2 (bool turn, int points) {}
-        void Move (int start, std::vector<std::vector<int>>& Board) {}
-        void Print (const std::vector<std::vector<int>>& Board) {}
-        bool Turn() {}
-        bool SwitchTurn() {}
+        Player2 ();
+        Player2 (bool turn, int points);
+        void Move (int start, std::vector<std::vector<int>>& Board);
+        void Print (const std::vector<std::vector<int>>& Board);
+        bool Turn();
+        bool SwitchTurn();
 
     private:
         bool m_turn;

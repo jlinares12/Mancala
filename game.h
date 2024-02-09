@@ -7,10 +7,10 @@ class Game {
     bool m_status;
 
   public:
-    Game () {}
-    Game (bool status) : m_status(status) {}
-    void CheckStatus(std::vector<std::vector<int>>& Board) {}
-    bool Status () {}
+    Game ();
+    Game (bool status);
+    void CheckStatus(std::vector<std::vector<int>>& Board);
+    bool Status ();
 };
 
 #endif
