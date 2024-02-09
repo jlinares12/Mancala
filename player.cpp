@@ -3,11 +3,10 @@
 #include <iostream>
 #include <vector>
 
-Player::Player () : m_turn(false), m_points(0) {}
+Player1::Player1 () : m_turn(false), m_points(0) {}
+Player1::Player1 (bool turn, int points) :  m_turn (turn), m_points (points) {}
 
-Player::Player (bool turn, int points) :  m_turn (turn), m_points (points) {}
-
-void Player::Move1 (int start, std::vector<std::vector<int>>& Board) {        //takes in which pocket the player chooses to play & current state of board
+void Player1::Move (int start, std::vector<std::vector<int>>& Board) {        //takes in which pocket the player chooses to play & current state of board
       int amount_stones {Board.at(start).at(0)};                                //sets up the limit of stones you can place on the board = #stones in pocket
       Board.at(start).at(0) = 0;                                                //sets pocket played to 0
   
@@ -28,7 +27,32 @@ void Player::Move1 (int start, std::vector<std::vector<int>>& Board) {        //
     }
 }
 
-void Player::Move2 (int start, std::vector<std::vector<int>>& Board) {
+void Player1::Print (const std::vector<std::vector<int>>& Board) {
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 2; j++) {
+            std::cout<<Board.at(i).at(j);
+        }
+        std::cout << '\n';
+    }
+    std::cout << "=======\n";
+}
+
+bool Player1::Turn (){
+      return m_turn;
+    }
+
+bool Player1::SwitchTurn () {
+    m_turn = !m_turn;
+    return m_turn;
+}
+
+//////////////////////////    start of   /////////////////////////////////////////
+//////////////////////////    Player 2   /////////////////////////////////////////
+
+Player2::Player2 () : m_turn(false), m_points(0) {}
+Player2::Player2 (bool turn, int points) :  m_turn (turn), m_points (points) {}
+
+void Player2::Move (int start, std::vector<std::vector<int>>& Board) {
     int amount_stones {Board.at(start).at(1)};                                //sets up the limit of stones you can place on the board = #stones in pocket
     Board.at(start).at(1) = 0;                                                //sets pocket played to 0
   
@@ -49,17 +73,7 @@ void Player::Move2 (int start, std::vector<std::vector<int>>& Board) {
     }
 }
 
-void Player::Print1 (const std::vector<std::vector<int>>& Board) {
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 2; j++) {
-            std::cout<<Board.at(i).at(j);
-        }
-        std::cout << '\n';
-    }
-    std::cout << "=======\n";
-}
-
-void Player::Print2 (const std::vector<std::vector<int>>& Board) {
+void Player2::Print (const std::vector<std::vector<int>>& Board) {
     for (int i = 7; i >= 0; i--) {
         for (int j = 1; j >= 0; j--) {
             std::cout<<Board.at(i).at(j);
@@ -69,11 +83,11 @@ void Player::Print2 (const std::vector<std::vector<int>>& Board) {
     std::cout << "=======\n";
 }
 
-bool Player::Turn (){
+bool Player2::Turn (){
       return m_turn;
     }
 
-bool Player::SwitchTurn () {
+bool Player2::SwitchTurn () {
     m_turn = !m_turn;
     return m_turn;
 }

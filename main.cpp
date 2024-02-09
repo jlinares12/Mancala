@@ -15,19 +15,19 @@ int main () {
     }
   }
 
-  Player player1(true, 0);
-  Player player2(false, 0);
+  Player1 player1(true, 0);
+  Player2 player2(false, 0);
   int pocket{0};
   Game game(true);
 
   while (game.Status()) {
     while (player1.Turn()) {
-      player1.Print1(Board);
+      player1.Print(Board);
       std::cout << "Player 1 turn\n";
      std::cout << "Please enter number of pocket to play: ";
       std::cin >> pocket;
-      player1.Move1(pocket, Board);
-      player1.Print1(Board);
+      player1.Move(pocket, Board);
+      player1.Print(Board);
       player1.SwitchTurn();
       player2.SwitchTurn();
     }
@@ -35,12 +35,12 @@ int main () {
     game.CheckStatus(Board);
 
     while (player2.Turn()) {
-      player2.Print2(Board);
+      player2.Print(Board);
       std::cout << "Player 2 turn\n";
       std::cout << "Please enter number of pocket to play: ";
       std::cin >> pocket;
-      player2.Move2(pocket, Board);
-      player2.Print2(Board);
+      player2.Move(pocket, Board);
+      player2.Print(Board);
       player1.SwitchTurn();
       player2.SwitchTurn();
     }

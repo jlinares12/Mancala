@@ -3,14 +3,26 @@
 
 #include <vector>
 
-class Player {
+class Player1 {
     public:
-        Player () {}
-        Player (bool turn, int points) {}
-        void Move1(int start, std::vector<std::vector<int>>& Board){}
-        void Move2 (int start, std::vector<std::vector<int>>& Board) {}
-        void Print1 (const std::vector<std::vector<int>>& Board) {}
-        void Print2 (const std::vector<std::vector<int>>& Board) {}
+        Player1 () {}
+        Player1 (bool turn, int points) {}
+        void Move(int start, std::vector<std::vector<int>>& Board){}
+        void Print (const std::vector<std::vector<int>>& Board) {}
+        bool Turn() {}
+        bool SwitchTurn() {}
+
+    private:
+        bool m_turn;
+        int m_points;
+};
+
+class Player2 {
+    public:
+        Player2 () {}
+        Player2 (bool turn, int points) {}
+        void Move (int start, std::vector<std::vector<int>>& Board) {}
+        void Print (const std::vector<std::vector<int>>& Board) {}
         bool Turn() {}
         bool SwitchTurn() {}
 
