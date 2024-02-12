@@ -24,14 +24,14 @@ int main () {
     while (player1.Turn()) {
       player1.Print(Board);
       std::cout << "Player 1 turn\n";
-     std::cout << "Please enter number of pocket to play: ";
+      std::cout << "Please enter number of pocket to play: ";
       std::cin >> pocket;
       player1.Move(pocket, Board);
       player1.Print(Board);
       player1.SwitchTurn();
-      player2.SwitchTurn();
     }
-
+    
+    player2.SwitchTurn();
     game.CheckStatus(Board);
 
     while (player2.Turn()) {
@@ -41,10 +41,10 @@ int main () {
       std::cin >> pocket;
       player2.Move(pocket, Board);
       player2.Print(Board);
-      player1.SwitchTurn();
       player2.SwitchTurn();
     }
 
+    player1.SwitchTurn();
     game.CheckStatus(Board);
   }
 }
