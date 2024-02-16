@@ -17,11 +17,11 @@ void Player1::Move (int start, std::vector<std::vector<int>>& Board) {        //
           Board.at(i).at(0) += 1;
           amount_stones--;
           if (amount_stones == 0) {
-            if (Board.at(i).at(0) == 1) {
-                stolen_stones = Board.at(i).at(1);
+            if (Board.at(i).at(0) == 1) {                                     // if statement checks to see if the last stone dropped was in an empty pocket
+                stolen_stones = Board.at(i).at(1);                            // gives the stones in the opposite pocket to the players mancala
                 Board.at(i).at(1) = 0;
-
-                Board.at(7).at(0) += stolen_stones;
+                Board.at(i).at(0) = 0;
+                Board.at(7).at(0) += stolen_stones + 1;
                 stolen_stones = 0;
             }
           }
@@ -33,15 +33,6 @@ void Player1::Move (int start, std::vector<std::vector<int>>& Board) {        //
         while(amount_stones > 0) {                                                //while loop serves same porpuse as previous one
           Board.at(i).at(1) += 1;
           amount_stones--;
-          if (amount_stones == 0) {
-            if (Board.at(i).at(1) == 1) {
-                stolen_stones = Board.at(i).at(0);
-                Board.at(i).at(0) = 0;
-
-                Board.at(7).at(0) += stolen_stones;
-                stolen_stones = 0;
-            }
-          }
           break;
         }
     }
@@ -68,7 +59,12 @@ void Player1::Print (const std::vector<std::vector<int>>& Board) {
     std::cout << "=======\n";
 }
 
-bool Player1::Turn (){
+int Player1::getPoints (const std::vector<std::vector<int>>& Board) {
+    m_points = Board.at(7).at(0);
+    return m_points;
+}
+
+bool Player1::getTurn (){
       return m_turn;
     }
 
@@ -84,14 +80,24 @@ Player2::Player2 () : m_turn(false), m_points(0) {}
 Player2::Player2 (bool turn, int points) :  m_turn (turn), m_points (points) {}
 
 void Player2::Move (int start, std::vector<std::vector<int>>& Board) {
-    int amount_stones {Board.at(start).at(1)};
-    int stone = amount_stones;                                                  //sets up the limit of stones you can place on the board = #stones in pocket
+    int amount_stones {Board.at(start).at(1)};                              //sets up the limit of stones you can place on the board = #stones in pocket
+    int stone = amount_stones;
+    int stolen_stones{0};
     Board.at(start).at(1) = 0;                                                  //sets pocket played to 0
   
     for (int i = start - 1; i >= 0; i--) {                                      //for loop runs up right side of board adding one to each pocket, starts on pocket chosen to play
         while (amount_stones > 0){                                              //while loop checks to see if we still have stones left
           Board.at(i).at(1) += 1;
           amount_stones--;
+          if (amount_stones == 0) {
+            if (Board.at(i).at(1) == 1) {
+                stolen_stones = Board.at(i).at(0);
+                Board.at(i).at(0) = 0;
+                Board.at(i).at(1) = 0;
+                Board.at(0).at(1) += stolen_stones + 1;
+                stolen_stones = 0;
+            }
+          }
           break;                                                                //break while loop to move to the next pocket before checking condition again
         }
     }
@@ -126,7 +132,12 @@ void Player2::Print (const std::vector<std::vector<int>>& Board) {
     std::cout << "=======\n";
 }
 
-bool Player2::Turn (){
+int Player2::getPoints (const std::vector<std::vector<int>>& Board) {
+    m_points = Board.at(0).at(1);
+    return m_points;
+}
+
+bool Player2::getTurn (){
       return m_turn;
     }
 

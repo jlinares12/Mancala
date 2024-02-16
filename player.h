@@ -9,7 +9,8 @@ class Player1 {
         Player1 (bool turn, int points);
         void Move(int start, std::vector<std::vector<int>>& Board);
         void Print (const std::vector<std::vector<int>>& Board);
-        bool Turn();
+        int getPoints(const std::vector<std::vector<int>>& Board);
+        bool getTurn();
         bool SwitchTurn();
 
     private:
@@ -23,7 +24,8 @@ class Player2 {
         Player2 (bool turn, int points);
         void Move (int start, std::vector<std::vector<int>>& Board);
         void Print (const std::vector<std::vector<int>>& Board);
-        bool Turn();
+        int getPoints(const std::vector<std::vector<int>>& Board);
+        bool getTurn();
         bool SwitchTurn();
 
     private:

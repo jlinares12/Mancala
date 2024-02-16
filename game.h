@@ -9,8 +9,9 @@ class Game {
   public:
     Game ();
     Game (bool status);
-    void CheckStatus(std::vector<std::vector<int>>& Board);
-    bool Status ();
+    void CheckStatus(const std::vector<std::vector<int>>& Board);
+    void switchStatus();
+    bool getStatus ();
 };
 
 #endif
