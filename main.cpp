@@ -38,16 +38,22 @@ int main () {
       std::cout << "Please enter number of pocket to play: ";
       std::cin >> pocket;
       if (Board.at(pocket).at(0) == 0) {
-        std::cout << "You gotta pick a pocket with stones silly!";
-        break;
+        std::cout << "You gotta pick a pocket with stones silly!\n";
+        continue;
       }
       player1.Move(pocket, Board);
       player1.Print(Board);
+      game.CheckStatus(Board);
+      if (!game.getStatus()) {
+        break;
+      }
       player1.SwitchTurn();
     }
     
     player2.SwitchTurn();
-    game.CheckStatus(Board);
+    if (!game.getStatus()) {
+      break;
+    }
 
     while (player2.getTurn()) {
       player2.Print(Board);
@@ -55,15 +61,19 @@ int main () {
       std::cout << "Please enter number of pocket to play: ";
       std::cin >> pocket;
       if (Board.at(pocket).at(1) == 0) {
-        std::cout << "You gotta pick a pocket with stones silly!";
-        break;
+        std::cout << "You gotta pick a pocket with stones silly!\n";
+        continue;
       }
       player2.Move(pocket, Board);
       player2.Print(Board);
+      game.CheckStatus(Board);
+      if (!game.getStatus()) {
+        break;
+      }
       player2.SwitchTurn();
     }
 
     player1.SwitchTurn();
-    game.CheckStatus(Board);
+    
   }
 }

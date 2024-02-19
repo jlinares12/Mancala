@@ -18,11 +18,13 @@ void Player1::Move (int start, std::vector<std::vector<int>>& Board) {        //
           amount_stones--;
           if (amount_stones == 0) {
             if (Board.at(i).at(0) == 1) {                                     // if statement checks to see if the last stone dropped was in an empty pocket
-                stolen_stones = Board.at(i).at(1);                            // gives the stones in the opposite pocket to the players mancala
-                Board.at(i).at(1) = 0;
-                Board.at(i).at(0) = 0;
-                Board.at(7).at(0) += stolen_stones + 1;
-                stolen_stones = 0;
+                    if (Board.at(i).at(1) != 0) {
+                    stolen_stones = Board.at(i).at(1);                            // gives the stones in the opposite pocket to the players mancala
+                    Board.at(i).at(1) = 0;
+                    Board.at(i).at(0) = 0;
+                    Board.at(7).at(0) += stolen_stones + 1;
+                    stolen_stones = 0;
+                }
             }
           }
           break;                                                                  //break while loop to move to the next pocket before checking condition again
@@ -91,11 +93,13 @@ void Player2::Move (int start, std::vector<std::vector<int>>& Board) {
           amount_stones--;
           if (amount_stones == 0) {
             if (Board.at(i).at(1) == 1) {
-                stolen_stones = Board.at(i).at(0);
-                Board.at(i).at(0) = 0;
-                Board.at(i).at(1) = 0;
-                Board.at(0).at(1) += stolen_stones + 1;
-                stolen_stones = 0;
+                if (Board.at(i).at(0) != 0){
+                    stolen_stones = Board.at(i).at(0);
+                    Board.at(i).at(0) = 0;
+                    Board.at(i).at(1) = 0;
+                    Board.at(0).at(1) += stolen_stones + 1;
+                    stolen_stones = 0;
+                }
             }
           }
           break;                                                                //break while loop to move to the next pocket before checking condition again
