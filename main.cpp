@@ -1,12 +1,14 @@
-#include "player.h"
 #include "game.h"
+#include "player.h"
 
 #include <iostream>
 #include <vector>
 
-int main () {
-  std::vector<std::vector<int>> Board (8, std::vector<int>(2));               //sets up blank board
-  for (int i = 0; i < 8; i++) {                                               //start of game sets board up with 4 stones in each playable pocket
+int main() {
+  std::vector<std::vector<int>> Board(
+      8, std::vector<int>(2));  // sets up blank board
+  for (int i = 0; i < 8; i++) { // start of game sets board up with 4 stones in
+                                // each playable pocket
     for (int j = 0; j < 2; j++) {
       if (i == 0 || i == 7) {
         continue;
@@ -30,7 +32,7 @@ int main () {
       game.switchStatus();
     }
   }
-  
+
   while (game.getStatus()) {
     while (player1.getTurn()) {
       player1.Print(Board);
@@ -49,7 +51,7 @@ int main () {
       }
       player1.SwitchTurn();
     }
-    
+
     player2.SwitchTurn();
     if (!game.getStatus()) {
       break;
@@ -74,6 +76,5 @@ int main () {
     }
 
     player1.SwitchTurn();
-    
   }
 }
