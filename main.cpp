@@ -37,12 +37,38 @@ int main() {
     while (player1.getTurn()) {
       player1.Print(Board);
       std::cout << "Player 1 turn\n";
-      std::cout << "Please enter number of pocket to play: ";
+      std::cout
+          << "Please enter the number (between 1 - 6) of a pocket to play: ";
       std::cin >> pocket;
-      if (Board.at(pocket).at(0) == 0) {
+
+      while (std::cin.fail()) { // Checks to see that user inputed an int
+        std::cout << "Sorry brosky but you have to enter a number. \nTry again."
+                  << std::endl;
+        std::cin.clear(); // This line clears the error flags on std::cin,
+                          // allowing further input operations to be attempted.
+        std::cin.ignore(256, '\n'); // This line clears the input buffer up to the
+                                    // next newline character or up to 256 characters
+        player1.Print(Board);
+        std::cin >> pocket;
+      }
+
+      while ((pocket == 0 || pocket == 7) ||
+             (pocket < 0 ||
+              pocket > 7)) { // makes sure number is in playable range
+        std::cout << "You have to pick a number between 1 and 6!\n";
+        std::cin.clear();
+        std::cin.ignore(256, '\n');
+        player1.Print(Board);
+        std::cin >> pocket;
+      }
+
+      if (Board.at(pocket).at(0) == 0) { // player must have stones to play
         std::cout << "You gotta pick a pocket with stones silly!\n";
+        std::cin.clear();
+        std::cin.ignore(256, '\n');
         continue;
       }
+
       player1.Move(pocket, Board);
       player1.Print(Board);
       game.CheckStatus(Board);
@@ -62,10 +88,31 @@ int main() {
       std::cout << "Player 2 turn\n";
       std::cout << "Please enter number of pocket to play: ";
       std::cin >> pocket;
+
+      while (std::cin.fail()) {
+        std::cout << "Sorry brosky but you have to enter a number. \nTry again."
+                  << std::endl;
+        std::cin.clear();
+        std::cin.ignore(256, '\n');
+        player2.Print(Board);
+        std::cin >> pocket;
+      }
+
+      while ((pocket == 0 || pocket == 7) || (pocket < 0 || pocket > 7)) {
+        std::cout << "You have to pick a number between 1 and 6!\n";
+        std::cin.clear();
+        std::cin.ignore(256, '\n');
+        player2.Print(Board);
+        std::cin >> pocket;
+      }
+
       if (Board.at(pocket).at(1) == 0) {
         std::cout << "You gotta pick a pocket with stones silly!\n";
+        std::cin.clear();
+        std::cin.ignore(256, '\n');
         continue;
       }
+
       player2.Move(pocket, Board);
       player2.Print(Board);
       game.CheckStatus(Board);
