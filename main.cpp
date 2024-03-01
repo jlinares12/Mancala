@@ -1,10 +1,11 @@
 #include "game.h"
 #include "player.h"
 
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
 
-int main() {
+int main(int argc, char* argv[]) {
   std::vector<std::vector<int>> Board(
       8, std::vector<int>(2));  // sets up blank board
   for (int i = 0; i < 8; i++) { // start of game sets board up with 4 stones in
