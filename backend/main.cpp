@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
   while (!game.getStatus()) {
     std::string menu;
     std::cout << "HELLO! Welcome to my very low level version of Mancala.\n";
-    std::cout << "Whenever you're ready to play just type \"start\".\n";
+    std::cout << "Whenever you're ready to play, just type \"start\".\n";
     std::cin >> menu;
 
     if (menu == "start") {
