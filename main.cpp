@@ -33,9 +33,7 @@ int main() {
         main_window.draw(background);
         title.setFont(font);
         title.setCharacterSize(75);
-        ///////// TODO ////////////
-        //Figure out how to properly set the title to the middle of the screen
-        title.setOrigin(-512 + 175, -125);
+        title.setOrigin(-512 + 175, -125); // to make title centered too half of the window res and subtracted half of the length of the string
         title.setString("MANCALA");
         instructions.setFont(font);
         instructions.setOrigin(0,-25);
