@@ -5,13 +5,13 @@
 #include <iostream>
 #include <vector>
 
-int main(int argc, char* argv[]) {
+int main() {
     sf::RenderWindow main_window(sf::VideoMode(1024, 1024), "Mancala");
     main_window.setFramerateLimit(60);
     sf::Font font;
     sf::Texture t;
     t.loadFromFile("main_menu.png");
-    sf::Sprite s(t);
+    sf::Sprite background(t);
     if (!font.loadFromFile("Stylish-Regular.ttf"))
     {
         std::cerr << "opps! we could not find your text file ;-;";
@@ -30,9 +30,13 @@ int main(int argc, char* argv[]) {
         }
         sf::Text title;
         sf::Text instructions;
-        main_window.draw(s);
+        main_window.draw(background);
         title.setFont(font);
-        title.setString("Mancala");
+        title.setCharacterSize(75);
+        ///////// TODO ////////////
+        //Figure out how to properly set the title to the middle of the screen
+        title.setOrigin(-512 + 175, -125);
+        title.setString("MANCALA");
         instructions.setFont(font);
         instructions.setOrigin(0,-25);
         instructions.setString("Whenever you're ready hit x!");
@@ -43,9 +47,19 @@ int main(int argc, char* argv[]) {
 
       Game mancala(true);
       while (mancala.Status()) {
-        sf::RectangleShape board(sf::Vector2f(820, 1000));
-        board.setFillColor(sf::Color::Red);
+        sf::Event event;
+        while (main_window.pollEvent(event))
+        {
+          if(event.key.code == sf::Keyboard::X) {
+            mancala.switchStatus();
+            continue;
+          }
+        }
+        sf::RectangleShape board(sf::Vector2f(275, 512));
+        board.setOrigin(-384,-250);
+        board.setFillColor(sf::Color::Cyan);
         main_window.clear();
+        main_window.draw(background);
         main_window.draw(board);
         main_window.display();
     }
