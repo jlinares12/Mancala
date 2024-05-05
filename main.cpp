@@ -29,17 +29,35 @@ int main() {
         }
       }
       sf::Text title;
-      sf::Text instructions;
+      sf::Text instruction1;
+      sf::Text instruction2;
       main_window.draw(background);
       title.setFont(font);
-      title.setCharacterSize(75);
-      title.setOrigin(-512 + 175, -125); // to make title centered too half of the window res and subtracted half of the length of the string
+      title.setCharacterSize(90);
+      title.setFillColor(sf::Color(50, 74, 14));
+      title.setOrigin(-512 + 197, -125); // to make title centered too half of the window res and subtracted half of the length of the string
       title.setString("MANCALA");
-      instructions.setFont(font);
-      instructions.setOrigin(0,-25);
-      instructions.setString("Whenever you're ready hit x!");
+
+      instruction1.setFont(font);
+      instruction1.setCharacterSize(40);
+      instruction1.setOrigin(-512 + 40, -260);
+      instruction1.setString("Play");
+      instruction1.setFillColor(sf::Color(50, 74, 14));
+
+      instruction2.setFont(font);
+      instruction2.setCharacterSize(40);
+      instruction2.setOrigin(-512 + 130, -350);
+      instruction2.setString("Exit the game ;-;");
+      instruction2.setFillColor(sf::Color(50, 74, 14));
+
+      sf::RectangleShape canvas(sf::Vector2f(400, 295));
+      canvas.setOrigin(-300,-125);
+      canvas.setFillColor(sf::Color(255, 255, 255, 128));
+
+      main_window.draw(canvas);
       main_window.draw(title);
-      main_window.draw(instructions);
+      main_window.draw(instruction1);
+      main_window.draw(instruction2);
       main_window.display();
     }
 
