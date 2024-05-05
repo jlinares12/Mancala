@@ -6,6 +6,46 @@
 #include <vector>
 
 int main(int argc, char* argv[]) {
+    sf::RenderWindow main_window(sf::VideoMode(1024, 1024), "Mancala");
+    main_window.setFramerateLimit(60);
+    sf::Font font;
+    sf::Texture t;
+    t.loadFromFile("main_menu.png");
+    sf::Sprite s(t);
+    if (!font.loadFromFile("Stylish-Regular.ttf"))
+    {
+        std::cerr << "opps! we could not find your text file ;-;";
+    }
+
+    while (main_window.isOpen()) {
+      Game main_menu(true);
+      while (main_menu.Status()) {
+        sf::Event event;
+        while (main_window.pollEvent(event))
+        {
+          if(event.key.code == sf::Keyboard::X) {
+            main_menu.switchStatus();
+            continue;
+          }
+        }
+        sf::Text title;
+        sf::Text instructions;
+        main_window.draw(s);
+        title.setFont(font);
+        title.setString("Mancala");
+        instructions.setFont(font);
+        instructions.setOrigin(0,-25);
+        instructions.setString("Whenever you're ready hit x!");
+        main_window.draw(title);
+        main_window.draw(instructions);
+        main_window.display();
+      }
+
+    Game mancala(true);
+    while (mancala.Status()) {
+      main_window.clear();
+      main_window.display();
+    }
   std::vector<std::vector<int>> Board(
       8, std::vector<int>(2));  // sets up blank board
   for (int i = 0; i < 8; i++) { // start of game sets board up with 4 stones in
@@ -21,20 +61,9 @@ int main(int argc, char* argv[]) {
   Player1 player1(true, 0);
   Player2 player2(false, 0);
   int pocket{0};
-  Game game(false);
+  Game game(true);
 
-  while (!game.getStatus()) {
-    std::string menu;
-    std::cout << "HELLO! Welcome to my very low level version of Mancala.\n";
-    std::cout << "Whenever you're ready to play, just type \"start\".\n";
-    std::cin >> menu;
-
-    if (menu == "start") {
-      game.switchStatus();
-    }
-  }
-
-  while (game.getStatus()) {
+  while (game.Status()) {
     while (player1.getTurn()) {
       player1.Print(Board);
       std::cout << "Player 1 turn\n";
@@ -73,14 +102,14 @@ int main(int argc, char* argv[]) {
       player1.Move(pocket, Board);
       player1.Print(Board);
       game.CheckStatus(Board);
-      if (!game.getStatus()) {
+      if (!game.Status()) {
         break;
       }
       player1.SwitchTurn();
     }
 
     player2.SwitchTurn();
-    if (!game.getStatus()) {
+    if (!game.Status()) {
       break;
     }
 
@@ -117,7 +146,7 @@ int main(int argc, char* argv[]) {
       player2.Move(pocket, Board);
       player2.Print(Board);
       game.CheckStatus(Board);
-      if (!game.getStatus()) {
+      if (!game.Status()) {
         break;
       }
       player2.SwitchTurn();
@@ -125,4 +154,5 @@ int main(int argc, char* argv[]) {
 
     player1.SwitchTurn();
   }
+}
 }

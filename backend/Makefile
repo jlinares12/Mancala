@@ -1,5 +1,5 @@
 play: main.o game.o player.o
-		clang++ main.o game.o player.o -o play
+		clang++ main.o game.o player.o -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system -o play
 
 main.cpp: main.cpp
 		clang++ -c main.cpp

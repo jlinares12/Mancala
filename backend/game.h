@@ -11,7 +11,7 @@ public:
   Game(bool status);
   void CheckStatus(const std::vector<std::vector<int>> &Board);
   void switchStatus();
-  bool getStatus();
+  bool Status();
 };
 
 #endif

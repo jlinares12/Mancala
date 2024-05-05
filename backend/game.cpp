@@ -27,4 +27,4 @@ void Game::CheckStatus(const std::vector<std::vector<int>> &Board) {
 
 void Game::switchStatus() { m_status = !m_status; }
 
-bool Game::getStatus() { return m_status; }
+bool Game::Status() { return m_status; }
