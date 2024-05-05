@@ -1,5 +1,5 @@
-#include "game.h"
-#include "player.h"
+#include "./backend/game.h"
+#include "./backend/player.h"
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -41,10 +41,13 @@ int main(int argc, char* argv[]) {
         main_window.display();
       }
 
-    Game mancala(true);
-    while (mancala.Status()) {
-      main_window.clear();
-      main_window.display();
+      Game mancala(true);
+      while (mancala.Status()) {
+        sf::RectangleShape board(sf::Vector2f(820, 1000));
+        board.setFillColor(sf::Color::Red);
+        main_window.clear();
+        main_window.draw(board);
+        main_window.display();
     }
   std::vector<std::vector<int>> Board(
       8, std::vector<int>(2));  // sets up blank board

@@ -1,14 +1,24 @@
-play: main.o game.o player.o
-		clang++ main.o game.o player.o -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system -o play
+CXX = clang++
+CXXFLAGS = -Wall -Wextra -g
+LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+TARGET = play
 
-main.cpp: main.cpp
-		clang++ -c main.cpp
+# List of source files
+SRCS = main.cpp $(wildcard backend/*.cpp)
 
-game.cpp: game.cpp game.h
-		clang++ -c game.cpp
+# List of object files
+OBJS = $(SRCS:.cpp=.o)
 
-player.cpp: player.cpp player.h
-		clang++ -c player.cpp
+# Main target
+$(TARGET): $(OBJS) $(MEDIA)
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(MEDIA) $(LDFLAGS)
 
-spotless:
-		rm *.o
+# Rule to compile .cpp files
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+# Clean rule
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+.PHONY: clean
