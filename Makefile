@@ -10,8 +10,8 @@ SRCS = main.cpp $(wildcard backend/*.cpp)
 OBJS = $(SRCS:.cpp=.o)
 
 # Main target
-$(TARGET): $(OBJS) $(MEDIA)
-	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(MEDIA) $(LDFLAGS)
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
 # Rule to compile .cpp files
 %.o: %.cpp
