@@ -95,14 +95,60 @@ int main() {
         }
       }
 
-      std::string player{"1"};
+      std::string player_turn{""};
+      Player1 player1(true, 0);
+      player1.switchTurn();
+      if (player1.getTurn())
+      {
+        player_turn = "1";
+      }
+      else {
+        player_turn = "2";
+      }
 
-      sf::RectangleShape board(sf::Vector2f(275, 512));
+      sf::RectangleShape board(sf::Vector2f(275, 720));
       board.setOrigin(-365,-250);
-      board.setFillColor(sf::Color::Cyan);
+      sf::Texture board_texture;
+      board_texture.loadFromFile("board_texture.jpg");
+      board.setTexture(&board_texture);
+
+      std::vector<sf::CircleShape> player1_pockets {
+        sf::CircleShape (40, 30),
+        sf::CircleShape (40, 30),
+        sf::CircleShape (40, 30),
+        sf::CircleShape (40, 30),
+        sf::CircleShape (40, 30),
+        sf::CircleShape (40, 30),
+      };
+
+      int start{360};
+      for (auto& pocket : player1_pockets) {
+        pocket.setTexture(&board_texture);
+        pocket.setFillColor(sf::Color(139, 105, 20));
+        pocket.setPosition(402, start);
+        start += 85;
+      }
+
+      std::vector<sf::CircleShape> player2_pockets {
+        sf::CircleShape (40, 30),
+        sf::CircleShape (40, 30),
+        sf::CircleShape (40, 30),
+        sf::CircleShape (40, 30),
+        sf::CircleShape (40, 30),
+        sf::CircleShape (40, 30),
+      };
+
+      start = 360;
+      for (auto& pocket : player2_pockets) {
+        pocket.setTexture(&board_texture);
+        pocket.setFillColor(sf::Color(139, 105, 20));
+        pocket.setPosition(527, start);
+        start += 85;
+      }
+      
 
       instruction1.setOrigin(-750, -50);
-      instruction1.setString("PLAYER " + player + " TURN");
+      instruction1.setString("PLAYER " + player_turn + " TURN");
 
       instruction2.setOrigin(-667, -950);
       instruction2.setString("EXIT TO MAIN MENU");
@@ -121,6 +167,13 @@ int main() {
       main_window.draw(instruction2);
       main_window.draw(title);
       main_window.draw(board);
+      for (const auto& pocket : player1_pockets) {
+        main_window.draw(pocket);
+      }
+      for (const auto& pocket : player2_pockets) {
+        main_window.draw(pocket);
+      }
+      main_window.draw(select_icon);
       main_window.display();
     }
   }
@@ -184,10 +237,10 @@ int main() {
       if (!game.Status()) {
         break;
       }
-      player1.SwitchTurn();
+      player1.switchTurn();
     }
 
-    player2.SwitchTurn();
+    player2.switchTurn();
     if (!game.Status()) {
       break;
     }
@@ -228,9 +281,9 @@ int main() {
       if (!game.Status()) {
         break;
       }
-      player2.SwitchTurn();
+      player2.switchTurn();
     }
 
-    player1.SwitchTurn();
+    player1.switchTurn();
   }
 }

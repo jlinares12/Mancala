@@ -3,9 +3,6 @@
 #include <iostream>
 #include <vector>
 
-Player1::Player1 () : m_turn(false), m_points(0) {}
-Player1::Player1 (bool turn, int points) :  m_turn (turn), m_points (points) {}
-
 void Player1::Move (int start, std::vector<std::vector<int>>& Board) {        //takes in which pocket the player chooses to play & current state of board
       int amount_stones {Board.at(start).at(0)};                              //sets up the limit of stones you can place on the board = #stones in pocket
       int stone = amount_stones;
@@ -66,20 +63,8 @@ int Player1::getPoints (const std::vector<std::vector<int>>& Board) {
     return m_points;
 }
 
-bool Player1::getTurn (){
-      return m_turn;
-    }
-
-bool Player1::SwitchTurn () {
-    m_turn = !m_turn;
-    return m_turn;
-}
-
 //////////////////////////    start of   /////////////////////////////////////////
 //////////////////////////    Player 2   /////////////////////////////////////////
-
-Player2::Player2 () : m_turn(false), m_points(0) {}
-Player2::Player2 (bool turn, int points) :  m_turn (turn), m_points (points) {}
 
 void Player2::Move (int start, std::vector<std::vector<int>>& Board) {
     int amount_stones {Board.at(start).at(1)};                              //sets up the limit of stones you can place on the board = #stones in pocket
@@ -138,13 +123,4 @@ void Player2::Print (const std::vector<std::vector<int>>& Board) {
 int Player2::getPoints (const std::vector<std::vector<int>>& Board) {
     m_points = Board.at(0).at(1);
     return m_points;
-}
-
-bool Player2::getTurn (){
-      return m_turn;
-    }
-
-bool Player2::SwitchTurn () {
-    m_turn = !m_turn;
-    return m_turn;
 }
