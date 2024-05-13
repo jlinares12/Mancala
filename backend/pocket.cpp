@@ -1,16 +1,17 @@
-#ifndef pocket_cpp
-#define pocket_cpp
+#include "pocket.h"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-class Pocket : public sf::CircleShape {
-  public:
-    Pocket(): m_body(sf::CircleShape(40,30)) {}
-    sf::CircleShape& getBody() {return this->m_body;}
-  private:
-  sf::CircleShape m_body;
-  std::vector<sf::CircleShape*> m_stones;
-};
+Pocket::Pocket() {
+  m_body = new sf::CircleShape(40, 30);
+}
 
-#endif
+Pocket::~Pocket() {
+  delete m_body;
+  m_body = nullptr;
+}
+
+sf::CircleShape* Pocket::getBody() const{
+  return m_body;
+}

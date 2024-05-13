@@ -1,6 +1,6 @@
 #include "./backend/game.h"
 #include "./backend/player.h"
-#include "./backend/pocket.cpp"
+#include "./backend/pocket.h"
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -105,10 +105,10 @@ int main() {
       std::vector<Pocket> player1_pockets(6);
 
       int start{360};
-      for (auto& pocket : player1_pockets) {
-        pocket.getBody().setTexture(&board_texture);
-        pocket.getBody().setFillColor(sf::Color(139, 105, 20));
-        pocket.getBody().setPosition(402, start);
+      for (Pocket pocket : player1_pockets) {
+        pocket.getBody()->setTexture(&board_texture);
+        pocket.getBody()->setFillColor(sf::Color(139, 105, 20));
+        pocket.getBody()->setPosition(402, start);
         start += 85;
       }
 
@@ -161,7 +161,9 @@ int main() {
       main_window.draw(instruction2);
       main_window.draw(title);
       main_window.draw(board);
-      player1.print(&main_window);
+      for (const auto& pocket : player1_pockets) {
+        main_window.draw(*pocket.getBody());
+      }
       for (const auto& pocket : player2_pockets) {
         main_window.draw(pocket);
       }
