@@ -2,6 +2,7 @@
 #include "./backend/player.h"
 #include "./backend/pocket.h"
 
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
@@ -66,7 +67,6 @@ int main() {
             main_window.close();
             return 0;
           } 
-          continue;
         }
       }
 
@@ -105,30 +105,15 @@ int main() {
     Player2 player2(player2_pockets);
 
     while (mancala.Status()) {
-      
       sf::Event event;
-      while (main_window.pollEvent(event))
-      {
-        if(event.key.code == sf::Keyboard::X) {
-          mancala.switchStatus();
-          main_menu.switchStatus();
-          continue;
-        }
-        if (event.key.code == sf::Keyboard::Y){
-          player1.switchTurn();
-          player2.switchTurn();
-          continue;
-        }
-      }
-      
-      std::string player_turn{""};
-      if (player1.getTurn())
-      {
-        player_turn = "1";
-      }
-      if (player2.getTurn()) {
-        player_turn = "2";
-      }
+      // Define debounce threshold in milliseconds
+      const sf::Time debounceTime = sf::milliseconds(200);
+      // Variable to track debounce state
+      bool isDebouncing = false;
+
+      // Variables to track debounce time
+      sf::Clock debounceClock;
+      sf::Time debounceStartTime;
 
       int start{360};
       for (std::vector<Pocket>::iterator pocket = player1_pockets.begin();
@@ -148,6 +133,17 @@ int main() {
         start += 85;
       }
 
+      // sets player's turn to 1 or 2
+      std::string player_turn{""};
+      if (player1.getTurn())
+      {
+        player_turn = "1";
+      }
+      else {
+        player_turn = "2";
+      }
+
+      //prints out all the instructions
       instruction1.setOrigin(-750, -50);
       instruction1.setString("PLAYER " + player_turn + " TURN");
 
@@ -159,6 +155,9 @@ int main() {
 
       sf::RectangleShape bottom_canvas(sf::Vector2f(360, 50));
       bottom_canvas.setPosition(657, 955);
+
+      select_icon.setPosition(375, 375);
+      select_icon.setFillColor(sf::Color::White);
 
       main_window.clear();
       main_window.draw(background);
@@ -173,9 +172,44 @@ int main() {
       }
       for (const auto& pocket : player2_pockets) {
         main_window.draw(*pocket.body);
+        for (auto& stone : pocket.getStones()){
+          main_window.draw(*stone.body);
+        }
       }
       main_window.draw(select_icon);
       main_window.display();
+      
+      while (main_window.pollEvent(event))
+      {
+        if (event.type == sf::Event::KeyPressed)
+        {
+          // Check if not currently debouncing
+          if (!isDebouncing)
+          {
+            // Process the key press event
+            if(event.key.code == sf::Keyboard::X) {
+              mancala.switchStatus();
+              main_menu.switchStatus();
+              select_icon.setFillColor(sf::Color(55, 80, 55));
+              select_icon.setPosition(460, 267.5);
+            }
+            if (event.key.code == sf::Keyboard::Y){
+              player1.switchTurn();
+              player2.switchTurn();
+            }
+            // Start debouncing
+            isDebouncing = true;
+            debounceStartTime = debounceClock.getElapsedTime();
+          }
+        }
+
+        // Check if debouncing and debounce time has elapsed
+        if (isDebouncing && debounceClock.getElapsedTime() - debounceStartTime >= debounceTime)
+        {
+          // End debouncing
+          isDebouncing = false;
+        }
+      }
     }
   }
 }
