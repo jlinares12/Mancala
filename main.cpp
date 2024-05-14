@@ -7,16 +7,20 @@
 #include <vector>
 
 int main() {
+
+  // Sets up the main window with it's texture and the font
   sf::RenderWindow main_window(sf::VideoMode(1024, 1024), "Mancala");
   main_window.setFramerateLimit(60);
   sf::Font font;
-  sf::Texture t;
-  t.loadFromFile("main_menu.png");
-  sf::Sprite background(t);
+  sf::Texture background_texture;
+  background_texture.loadFromFile("main_menu.png");
+  sf::Sprite background(background_texture);
   if (!font.loadFromFile("Stylish-Regular.ttf"))
   {
       std::cerr << "opps! we could not find your text file ;-;";
   }
+
+  // Sets up the layout of the main menu
   sf::Text title;
   sf::Text instruction1;
   sf::Text instruction2;
@@ -42,6 +46,7 @@ int main() {
   select_icon.rotate(90);
   select_icon.setPosition(460, 267.5);
   
+  // Opens up the main_window and starts rendering
   while (main_window.isOpen()) {
     Game main_menu(true);
     while (main_menu.Status()) {
@@ -65,6 +70,7 @@ int main() {
         }
       }
 
+      // it rearranges the instructions and the canvas back to original position
       instruction1.setOrigin(-512 + 50, -260);
       instruction1.setString("PLAY");
 
@@ -85,60 +91,61 @@ int main() {
     }
 
     Game mancala(true);
+
+    sf::RectangleShape board(sf::Vector2f(275, 720));
+    board.setOrigin(-365,-250);
+    sf::Texture board_texture;
+    board_texture.loadFromFile("board_texture.jpg");
+    board.setTexture(&board_texture);
+
+    std::vector<Pocket> player1_pockets(6);
+    std::vector<Pocket> player2_pockets(6);
+
+    Player1 player1(player1_pockets);
+    Player2 player2(player2_pockets);
+
     while (mancala.Status()) {
+      
       sf::Event event;
       while (main_window.pollEvent(event))
       {
         if(event.key.code == sf::Keyboard::X) {
           mancala.switchStatus();
           main_menu.switchStatus();
-          break;
+          continue;
+        }
+        if (event.key.code == sf::Keyboard::Y){
+          player1.switchTurn();
+          player2.switchTurn();
+          continue;
         }
       }
-
-      sf::RectangleShape board(sf::Vector2f(275, 720));
-      board.setOrigin(-365,-250);
-      sf::Texture board_texture;
-      board_texture.loadFromFile("board_texture.jpg");
-      board.setTexture(&board_texture);
-
-      std::vector<Pocket> player1_pockets(6);
-
-      int start{360};
-      for (Pocket pocket : player1_pockets) {
-        pocket.getBody()->setTexture(&board_texture);
-        pocket.getBody()->setFillColor(sf::Color(139, 105, 20));
-        pocket.getBody()->setPosition(402, start);
-        start += 85;
-      }
-
-      std::vector<sf::CircleShape> player2_pockets {
-        sf::CircleShape (40, 30),
-        sf::CircleShape (40, 30),
-        sf::CircleShape (40, 30),
-        sf::CircleShape (40, 30),
-        sf::CircleShape (40, 30),
-        sf::CircleShape (40, 30),
-      };
-
-      start = 360;
-      for (auto& pocket : player2_pockets) {
-        pocket.setTexture(&board_texture);
-        pocket.setFillColor(sf::Color(139, 105, 20));
-        pocket.setPosition(527, start);
-        start += 85;
-      }
       
-
       std::string player_turn{""};
-      Player1 player1(true, player1_pockets);
-      player1.switchTurn();
       if (player1.getTurn())
       {
         player_turn = "1";
       }
-      else {
+      if (player2.getTurn()) {
         player_turn = "2";
+      }
+
+      int start{360};
+      for (std::vector<Pocket>::iterator pocket = player1_pockets.begin();
+           pocket != player1_pockets.end(); pocket++) {
+        pocket->body->setTexture(&board_texture);
+        pocket->body->setFillColor(sf::Color(139, 105, 20));
+        pocket->body->setPosition(402, start);
+        start += 85;
+      }
+
+      start = 360;
+      for (std::vector<Pocket>::iterator pocket = player2_pockets.begin();
+           pocket != player2_pockets.end(); pocket++) {
+        pocket->body->setTexture(&board_texture);
+        pocket->body->setFillColor(sf::Color(139, 105, 20));
+        pocket->body->setPosition(527, start);
+        start += 85;
       }
 
       instruction1.setOrigin(-750, -50);
@@ -162,10 +169,10 @@ int main() {
       main_window.draw(title);
       main_window.draw(board);
       for (const auto& pocket : player1_pockets) {
-        main_window.draw(*pocket.getBody());
+        main_window.draw(*pocket.body);
       }
       for (const auto& pocket : player2_pockets) {
-        main_window.draw(pocket);
+        main_window.draw(*pocket.body);
       }
       main_window.draw(select_icon);
       main_window.display();

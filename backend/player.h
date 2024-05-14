@@ -1,21 +1,41 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include "pocket.h"
+#include <vector>
 
 class Player1 {
   public:
-    Player1(bool turn, std::vector<Pocket>& pockets) : m_pockets(pockets), m_turn(turn),  m_points(0) {}
+    Player1(std::vector<Pocket>& pockets)
+      : m_pockets(&pockets),
+        m_turn(true),
+        m_points(0) {}
     void switchTurn() { m_turn = !m_turn; }
     bool getTurn() {return m_turn; }
-    void move(Pocket* start);
+    void move(Pocket& start);
     unsigned int getPoints() const;
 
   private:
-    std::vector<Pocket> m_pockets;
+    std::vector<Pocket>* m_pockets;
     bool m_turn;
     unsigned int m_points;
 };
 
 class Player2 {
   public:
-    void move(Pocket* start);
+    Player2(std::vector<Pocket>& pockets)
+      : m_pockets(&pockets),
+        m_turn(false),
+        m_points(0) {}
+    void switchTurn() { m_turn = !m_turn; }
+    bool getTurn() {return m_turn; }
+    void move(Pocket& start);
     unsigned int getPoints() const;
+
+  private:
+    std::vector<Pocket>* m_pockets;
+    bool m_turn;
+    unsigned int m_points;
 };
+
+#endif

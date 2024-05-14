@@ -8,9 +8,8 @@ class Pocket{
   public:
     Pocket();
     ~Pocket();
-    sf::CircleShape* getBody() const;
+    sf::CircleShape* body;
   private:
-    sf::CircleShape* m_body;
     std::vector<sf::CircleShape*> m_stones;
 };
 
