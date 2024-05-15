@@ -14,9 +14,9 @@ int main() {
   main_window.setFramerateLimit(60);
   sf::Font font;
   sf::Texture background_texture;
-  background_texture.loadFromFile("main_menu.png");
+  background_texture.loadFromFile("media/main_menu.png");
   sf::Sprite background(background_texture);
-  if (!font.loadFromFile("Stylish-Regular.ttf"))
+  if (!font.loadFromFile("media/Stylish-Regular.ttf"))
   {
       std::cerr << "opps! we could not find your text file ;-;";
   }
@@ -95,7 +95,7 @@ int main() {
     sf::RectangleShape board(sf::Vector2f(275, 720));
     board.setOrigin(-365,-250);
     sf::Texture board_texture;
-    board_texture.loadFromFile("board_texture.jpg");
+    board_texture.loadFromFile("media/board_texture.jpg");
     board.setTexture(&board_texture);
 
     std::vector<Pocket> player1_pockets(6);
@@ -103,6 +103,36 @@ int main() {
 
     Player1 player1(player1_pockets);
     Player2 player2(player2_pockets);
+
+    int start{360};
+    for (std::vector<Pocket>::iterator pocket = player1_pockets.begin();
+         pocket != player1_pockets.end(); pocket++) {
+      pocket->body->setTexture(&board_texture);
+      pocket->body->setFillColor(sf::Color(139, 105, 20));
+      pocket->body->setPosition(402, start);
+
+      auto& stones = pocket->getStones();
+      for(std::vector<Stone>::iterator stone = stones.begin();
+          stone != stones.end(); stone++) {
+        stone->body->setTexture(&background_texture);
+      }
+      start += 85;
+    }
+
+    start = 360;
+    for (std::vector<Pocket>::iterator pocket = player2_pockets.begin();
+         pocket != player2_pockets.end(); pocket++) {
+      pocket->body->setTexture(&board_texture);
+      pocket->body->setFillColor(sf::Color(139, 105, 20));
+      pocket->body->setPosition(527, start);
+
+      auto& stones = pocket->getStones();
+      for(std::vector<Stone>::iterator stone = stones.begin();
+          stone != stones.end(); stone++) {
+        stone->body->setTexture(&background_texture);
+      }
+      start += 85;
+    }
 
     while (mancala.Status()) {
       sf::Event event;
@@ -114,24 +144,6 @@ int main() {
       // Variables to track debounce time
       sf::Clock debounceClock;
       sf::Time debounceStartTime;
-
-      int start{360};
-      for (std::vector<Pocket>::iterator pocket = player1_pockets.begin();
-           pocket != player1_pockets.end(); pocket++) {
-        pocket->body->setTexture(&board_texture);
-        pocket->body->setFillColor(sf::Color(139, 105, 20));
-        pocket->body->setPosition(402, start);
-        start += 85;
-      }
-
-      start = 360;
-      for (std::vector<Pocket>::iterator pocket = player2_pockets.begin();
-           pocket != player2_pockets.end(); pocket++) {
-        pocket->body->setTexture(&board_texture);
-        pocket->body->setFillColor(sf::Color(139, 105, 20));
-        pocket->body->setPosition(527, start);
-        start += 85;
-      }
 
       // sets player's turn to 1 or 2
       std::string player_turn{""};
@@ -169,6 +181,9 @@ int main() {
       main_window.draw(board);
       for (const auto& pocket : player1_pockets) {
         main_window.draw(*pocket.body);
+        for (auto& stone : pocket.getStones()){
+          main_window.draw(*stone.body);
+        }
       }
       for (const auto& pocket : player2_pockets) {
         main_window.draw(*pocket.body);
