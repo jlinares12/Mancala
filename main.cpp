@@ -104,6 +104,9 @@ int main() {
     Player1 player1(player1_pockets);
     Player2 player2(player2_pockets);
 
+    sf::Texture stone_texture;
+    stone_texture.loadFromFile("media/stone_texture.jpeg");
+
     int start{360};
     for (std::vector<Pocket>::iterator pocket = player1_pockets.begin();
          pocket != player1_pockets.end(); pocket++) {
@@ -114,7 +117,7 @@ int main() {
       auto& stones = pocket->getStones();
       for(std::vector<Stone>::iterator stone = stones.begin();
           stone != stones.end(); stone++) {
-        stone->body->setTexture(&background_texture);
+        stone->body->setTexture(&stone_texture);
       }
       start += 85;
     }
@@ -129,7 +132,7 @@ int main() {
       auto& stones = pocket->getStones();
       for(std::vector<Stone>::iterator stone = stones.begin();
           stone != stones.end(); stone++) {
-        stone->body->setTexture(&background_texture);
+        stone->body->setTexture(&stone_texture);
       }
       start += 85;
     }
