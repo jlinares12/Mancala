@@ -46,6 +46,13 @@ int main() {
   select_icon.setFillColor(sf::Color(55, 80, 55));
   select_icon.rotate(90);
   select_icon.setPosition(460, 267.5);
+
+
+  std::vector<Pocket> player1_pockets(6);
+  std::vector<Pocket> player2_pockets(6);
+
+  Player1 player1(player1_pockets);
+  Player2 player2(player2_pockets);
   
   // Opens up the main_window and starts rendering
   while (main_window.isOpen()) {
@@ -97,12 +104,6 @@ int main() {
     sf::Texture board_texture;
     board_texture.loadFromFile("media/board_texture.jpg");
     board.setTexture(&board_texture);
-
-    std::vector<Pocket> player1_pockets(6);
-    std::vector<Pocket> player2_pockets(6);
-
-    Player1 player1(player1_pockets);
-    Player2 player2(player2_pockets);
 
     sf::Texture stone_texture;
     stone_texture.loadFromFile("media/stone_texture.jpeg");
