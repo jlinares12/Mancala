@@ -138,6 +138,9 @@ int main() {
       start += 85;
     }
 
+    float y_pos [6] {375, 460, 545, 630, 715, 800};
+    float *current_y_pos = &y_pos[0];
+
     while (mancala.Status()) {
       sf::Event event;
       // Define debounce threshold in milliseconds
@@ -163,24 +166,20 @@ int main() {
       instruction1.setOrigin(-750, -50);
       instruction1.setString("PLAYER " + player_turn + " TURN");
 
-      instruction2.setOrigin(-667, -950);
-      instruction2.setString("EXIT TO MAIN MENU");
-
       canvas.setSize(sf::Vector2f(275, 50));
       canvas.setOrigin(-740, -50);
 
       sf::RectangleShape bottom_canvas(sf::Vector2f(360, 50));
       bottom_canvas.setPosition(657, 955);
 
-      select_icon.setPosition(375, 375);
+      
+      select_icon.setPosition(375, *current_y_pos);
       select_icon.setFillColor(sf::Color::White);
 
       main_window.clear();
       main_window.draw(background);
       main_window.draw(canvas);
-      main_window.draw(bottom_canvas);
       main_window.draw(instruction1);
-      main_window.draw(instruction2);
       main_window.draw(title);
       main_window.draw(board);
       for (const auto& pocket : player1_pockets) {
@@ -215,6 +214,20 @@ int main() {
             if (event.key.code == sf::Keyboard::Y){
               player1.switchTurn();
               player2.switchTurn();
+            }
+            if (event.key.code == sf::Keyboard::Down) {
+              if (current_y_pos == &y_pos[5]) {
+                current_y_pos = &y_pos[0];
+                break;
+              }
+              current_y_pos++;
+            }
+            if (event.key.code == sf::Keyboard::Up) {
+              if (current_y_pos == &y_pos[0]) {
+                current_y_pos = &y_pos[5];
+                break;
+              }
+              current_y_pos--;
             }
             // Start debouncing
             isDebouncing = true;
